@@ -35,7 +35,7 @@ app.post("/add", (req,res) => {
         });
         return;
     }
-    if(!isNaN(parseFloat(num1))  && !isNaN(parseFloat(num1))) {
+    if(!isNaN(parseFloat(num1))  && !isNaN(parseFloat(num2))) {
         let sum = parseFloat(num1) + parseFloat(num2);
         if(sum < 1000000) {
             res.send({
@@ -50,7 +50,7 @@ app.post("/add", (req,res) => {
                 sum: undefined
             });
         }
-    }else if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num1))){
+    }else if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num2))){
         res.send({
             status: "failure",
             message: "Invalid data types",
@@ -62,7 +62,7 @@ app.post("/add", (req,res) => {
 app.post("/sub", (req,res) => {
     let num1 = req.body.num1;
     let num2 = req.body.num2;
-    if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num1))){
+    if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num2))){
         res.send({
             status: "failure",
             message: "Invalid data types",
@@ -86,7 +86,7 @@ app.post("/sub", (req,res) => {
         });
         return;
     }
-    if(!isNaN(parseFloat(num1))  && !isNaN(parseFloat(num1))) {
+    if(!isNaN(parseFloat(num1))  && !isNaN(parseFloat(num2))) {
         res.send({
             status: "success",
             message: "the difference of given two numbers",
@@ -98,7 +98,7 @@ app.post("/sub", (req,res) => {
 app.post("/multiply", (req,res) => {
     let num1 = req.body.num1;
     let num2 = req.body.num2;
-    if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num1))){
+    if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num2))){
         res.send({
             status: "failure",
             message: "Invalid data types",
@@ -121,7 +121,7 @@ app.post("/multiply", (req,res) => {
         });
         return;
     }
-    if(!isNaN(parseFloat(num1))  && !isNaN(parseFloat(num1))) {
+    if(!isNaN(parseFloat(num1))  && !isNaN(parseFloat(num2))) {
         let result = parseFloat(num1) * parseFloat(num2);
         if(result < 1000000){
             res.send({
@@ -166,13 +166,13 @@ app.post("/divide", (req,res) => {
         });
         return;
     }
-    if(!isNaN(parseFloat(num1)) && !isNaN(parseFloat(num1))) {
+    if(!isNaN(parseFloat(num1)) && !isNaN(parseFloat(num2))) {
         res.send({
             status: "success",
             message: "The division of given numbers",
             result: parseFloat(num1) / parseFloat(num2)
         });
-    }else if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num1))){
+    }else if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num2))){
         res.send({
             status: "failure",
             message: "Invalid data types",
