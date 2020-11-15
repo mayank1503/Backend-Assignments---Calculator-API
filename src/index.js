@@ -11,177 +11,138 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
-// your code goes here
-app.get('/',(req,res) => {
+app.get("/",(req,res)=>{
     res.send("Hello world!");
 });
 
-app.post("/add", (req,res) => {
-    let num1 = req.body.num1;
-    let num2 = req.body.num2;
-    if(parseFloat(num1) > 1000000 || parseFloat(num2) > 1000000){
+app.post('/add', (req, res) => {
+    if(typeof(req.body.num1)==="string" || typeof(req.body.num2)==="string"){
         res.send({
-            status: "Error",
-            message: "Overflow",
-            sum: undefined
-        });
-        return;
-    }
-    if(parseFloat(num2) < -1000000 || parseFloat(num1) < -1000000){
-        res.send({
-            status: "Error",
-            message: "Underflow",
-            sum: undefined
-        });
-        return;
-    }
-    if(!isNaN(parseFloat(num1))  && !isNaN(parseFloat(num2))) {
-        let sum = parseFloat(num1) + parseFloat(num2);
-        if(sum < 1000000) {
-            res.send({
-                status: "success",
-                message: "the sum of given two numbers",
-                sum: sum
-            });
-        }else{
-            res.send({
-                status: "Error",
-                message: "Overflow",
-                sum: undefined
-            });
-        }
-    }else if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num2))){
-        res.send({
-            status: "failure",
+            status: "error",
             message: "Invalid data types",
-            sum: undefined
-        });
+            sum:undefined
+            });
+        res.end();
+        return;
     }
+    const num1=req.body.num1;
+    const num2=req.body.num2;
+    if(num1>1000000 || num2>1000000 || num1+num2>1000000){
+        res.send({
+            status: "error",
+            message: "Overflow",
+            sum:undefined
+            });
+        res.end();
+        return;
+    }
+    else{
+        res.send({
+            status: "success",
+            message: "the sum of given two numbers",
+            sum:num1+num2
+            });
+        res.end();
+        return;
+    }
+
 });
 
-app.post("/sub", (req,res) => {
-    let num1 = req.body.num1;
-    let num2 = req.body.num2;
-    if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num2))){
+app.post('/sub', (req, res) => {
+    if(typeof(req.body.num1)==="string" || typeof(req.body.num2)==="string"){
         res.send({
-            status: "failure",
+            status: "error",
             message: "Invalid data types",
-            difference: undefined
-        });
+            difference:undefined
+            });
+        res.end();
         return;
     }
-    if(parseFloat(num1) > 1000000 || parseFloat(num2) > 1000000){
+    let num1=parseFloat(req.body.num1),num2=parseFloat(req.body.num2);
+    if(num1<-1000000 || num2<-1000000 || num1-num2<-1000000){
         res.send({
-            status: "Error",
-            message: "Overflow",
-            difference: undefined
-        });
-        return;
-    }
-    if(parseFloat(num2) < -1000000 || parseFloat(num1) < -1000000){
-        res.send({
-            status: "Error",
+            status: "error",
             message: "Underflow",
-            difference: undefined
-        });
+            difference:undefined
+            });
+        res.end();
         return;
     }
-    if(!isNaN(parseFloat(num1))  && !isNaN(parseFloat(num2))) {
+    else{
         res.send({
             status: "success",
             message: "the difference of given two numbers",
-            difference: parseFloat(num1) - parseFloat(num2)
-        });
+            difference:num1-num2
+            });
+        res.end();
+        return;
     }
+
 });
 
-app.post("/multiply", (req,res) => {
-    let num1 = req.body.num1;
-    let num2 = req.body.num2;
-    if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num2))){
+app.post('/multiply', (req, res) => {
+    if(typeof(req.body.num1)==="string" || typeof(req.body.num2)==="string"){
         res.send({
-            status: "failure",
+            status: "error",
             message: "Invalid data types",
-            result: undefined
-        });
+            result:undefined
+            });
+        res.end();
+        return;
     }
-    if(parseFloat(num1) > 1000000 || parseFloat(num2) > 1000000){
+    let num1=parseFloat(req.body.num1),num2=parseFloat(req.body.num2);
+    if(num1>1000000 || num2>1000000 || num1*num2>1000000){
         res.send({
-            status: "Error",
+            status: "error",
             message: "Overflow",
-            result: undefined
-        });
+            result:undefined
+            });
+        res.end();
         return;
     }
-    if(parseFloat(num2) < -1000000 || parseFloat(num1) < -1000000){
+    else{
         res.send({
-            status: "Error",
-            message: "Underflow",
-            result: undefined
-        });
+            status: "success",
+            message: "The product of given numbers",
+            result:num1*num2
+            });
+        res.end();
         return;
     }
-    if(!isNaN(parseFloat(num1))  && !isNaN(parseFloat(num2))) {
-        let result = parseFloat(num1) * parseFloat(num2);
-        if(result < 1000000){
-            res.send({
-                status: "success",
-                message: "The product of given numbers",
-                result: result
-            });
-        }else{
-            res.send({
-                status: "Error",
-                message: "Overflow",
-                result: undefined
-            });
-        }
-    }
+
 });
 
-app.post("/divide", (req,res) => {
-    let num1 = req.body.num1;
-    let num2 = req.body.num2;
-    if(parseFloat(num1) > 1000000 || parseFloat(num2) > 1000000){
+app.post('/divide', (req, res) => {
+    if(typeof(req.body.num1)==="string" || typeof(req.body.num2)==="string"){
         res.send({
-            status: "Error",
-            message: "Overflow",
-            result: undefined
-        });
+            status: "error",
+            message: "Invalid data types",
+            result:undefined
+            });
+        res.end();
         return;
     }
-    if(parseFloat(num2) < -1000000 || parseFloat(num1) < -1000000){
+    let num1=parseFloat(req.body.num1),num2=parseFloat(req.body.num2);
+    if(num2===0){
         res.send({
-            status: "Error",
-            message: "Underflow",
-            result: undefined
-        });
-        return;
-    }
-    if(parseFloat(num2) === 0){
-        res.send({
-            status: "Error",
+            status: "error",
             message: "Cannot divide by zero",
-            result: undefined
-        });
+            result:undefined
+            });
+        res.end();
         return;
     }
-    if(!isNaN(parseFloat(num1)) && !isNaN(parseFloat(num2))) {
+    else{
         res.send({
             status: "success",
             message: "The division of given numbers",
-            result: parseFloat(num1) / parseFloat(num2)
-        });
-    }else if(isNaN(parseFloat(num1)) || isNaN(parseFloat(num2))){
-        res.send({
-            status: "failure",
-            message: "Invalid data types",
-            result: undefined
-        });
+            result:num1/num2
+            });
+        res.end();
+        return;
     }
+
 });
-
-
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
 module.exports = app;
